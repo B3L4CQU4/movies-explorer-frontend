@@ -1,0 +1,118 @@
+.card__container {
+    width: 270px;
+}
+
+.card__img-container {
+    width: 270px;
+    height: 151px;
+}
+
+.card__img-container-img {
+    width: 270px;
+    height: 151px;
+}
+
+.card__info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    height: 24px;
+
+}
+
+.card__info-link {
+    text-decoration: none;
+}
+
+.card__info-name {
+    max-width: 226px;
+    margin: 0;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.card__info-name:hover {
+    opacity: 0.7;
+}
+
+.card__like-button {
+    border: none; 
+    box-shadow: none; 
+    padding: 0; 
+    outline: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 36px;
+    background: rgb(49, 49, 49);
+    background-image: url('../../../images/like_icon.svg');
+    background-size: 10px;
+    background-repeat: no-repeat; 
+    background-position: center;
+    cursor: pointer;
+}
+
+.card__like-button:focus {
+    outline: none; 
+}
+
+.card__like-button_liked:hover {
+    background-size: 9px;
+    background-image: url('../../../images/close_icon.svg');
+}
+
+.card__like-button_liked {
+    background-image: url('../../../images/like_icon_liked.svg');
+}
+
+.card__line {
+    margin-top: 25px;
+    background-color: #424242;
+    height: 1px;
+}
+
+.card__movie-duration {
+    margin: 0;
+    padding: 0;
+    margin-top: 6px;
+    color: rgb(139, 139, 139);
+    font-family: Inter;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+@media screen and (max-width: 1279px) {
+    .card__container {
+        width: 339px;
+    }
+    .card__img-container {
+        width: 339px;
+        height: 190px;
+    }
+    .card__img-container-img {
+        width: 339px;
+        height: 190px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .card__container {
+        width: 300px;
+    }
+    .card__img-container {
+        width: 300px;
+        height: 168px;
+    }
+    .card__img-container-img {
+        width: 300px;
+        height: 168px;
+    }
+}

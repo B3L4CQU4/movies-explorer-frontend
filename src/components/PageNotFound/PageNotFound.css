@@ -1,0 +1,115 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    max-width: 100vw; 
+}
+
+.not-found__container {
+    margin-top: 246px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 880px);
+    margin-left: auto;
+    margin-right: auto;   
+}
+
+.not-found__title {
+    margin: 0;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 140px;
+    font-weight: 400;
+    line-height: 169px;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.not-found__sub-title {
+    margin: 0;
+    padding: 0;
+    margin-top: 5px;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.not-found__link {
+    margin: 0;
+    padding: 0;
+    margin-top: 184px;
+    border: none; 
+    background: none;
+    box-shadow: none; 
+    outline: none;
+    cursor: pointer;   
+    color: rgb(66, 133, 244);
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+@media screen and (min-width: 1281px) {
+    .not-found__container {
+      max-width: 1140px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .not-found__container {
+        width: calc(100vw - 372px);
+        margin-top: 408px;
+    }
+
+    .not-found__title {
+        font-size: 140px;
+        font-weight: 400;
+        line-height: 169px;
+    }
+
+    .not-found__sub-title {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19px;
+    }
+
+    .not-found__link {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 17px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .not-found__container {
+        width: calc(100vw - 20px);
+        margin-top: 329px;
+    }
+
+    .not-found__title {
+        font-size: 80px;
+        font-weight: 400;
+        line-height: 97px;
+    }
+
+    .not-found__sub-title {
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+    }
+
+    .not-found__link {
+        margin-top: 284px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+    }
+}

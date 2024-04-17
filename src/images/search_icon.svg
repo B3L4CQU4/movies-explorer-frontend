@@ -1,0 +1,13 @@
+<svg width="34.000000" height="34.000000" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs/>
+	<g opacity="0.000000">
+		<rect id="guard" rx="17.000000" width="34.000000" height="34.000000" fill="#FFFFFF" fill-opacity="1.000000"/>
+	</g>
+	<g opacity="0.000000">
+		<rect id="guard" x="6.000000" y="6.000000" width="22.000000" height="22.000000" fill="#C4C4C4" fill-opacity="1.000000"/>
+	</g>
+	<path id="icon" d="M18.79 18.26C17.36 19.69 15.03 19.69 13.6 18.26C12.17 16.83 12.17 14.51 13.6 13.07C15.03 11.64 17.36 11.64 18.79 13.07C20.22 14.51 20.22 16.83 18.79 18.26ZM19.23 19.64C17.27 21.14 14.45 20.99 12.66 19.2C10.71 17.25 10.71 14.08 12.66 12.13C14.61 10.18 17.78 10.18 19.73 12.13C21.52 13.92 21.67 16.74 20.17 18.7L23.74 22.27L22.79 23.21L19.23 19.64Z" fill="#959595" fill-opacity="1.000000" fill-rule="evenodd"/>
+</svg>

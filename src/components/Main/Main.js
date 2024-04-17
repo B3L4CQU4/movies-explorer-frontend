@@ -4,13 +4,13 @@ import Promo from './Promo/Promo.js';
 import Techs from './Techs/Techs.js';
 import Portfolio from './Portfolio/Portfolio.js';
 
-function Main() {
+function Main({ portfolioLinks }) {
   return (
     <>
         <Promo />
         <AboutProject />
         <Techs />
-        <Portfolio />
+        <Portfolio portfolioLinks={portfolioLinks} />
     </>
   );
 };

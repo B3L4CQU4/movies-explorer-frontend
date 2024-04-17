@@ -5,7 +5,7 @@
     background-color: #202020;
 }
 
-.footerContainer {
+.footer__container {
     margin-top: 79px;
     margin-bottom: 20px;
     display: flex;
@@ -15,12 +15,12 @@
     margin-right: auto;
 }
 
-.footerContent {
+.footer__content {
     display: flex;
     flex-direction: column;
 }
 
-.footerTitle {
+.footer__title {
     margin: 0;
     margin-top: 32px;
     color: #8b8b8b;
@@ -31,20 +31,19 @@
     text-align: center;
 }
 
-.footerLine {
+.footer__line {
     margin-top: 20px;
     background-color: #424242;
     height: 1px;
-    max-width: calc(100vw - 140px);
 }
 
-.footerNavContainer {
+.footer__nav-container {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
 }
 
-.footerYear {
+.footer__year {
     margin: 0;
     color: white;
     font-size: 13px;
@@ -54,12 +53,12 @@
     text-align: left;    
 }
 
-.footerNavlinks {
+.footer__nav-links {
     display: flex;
     gap: 20px;
 }
   
-.footerNavLink {
+.footer__nav-link {
     color: #fff;
     text-decoration: none;
     font-size: 13px;
@@ -70,7 +69,54 @@
 }
 
 @media screen and (min-width: 1281px) {
-    .footerContainer {
-      max-width: 1280px;
+    .footer__container {
+      max-width: 1140px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .footer__container {
+        margin-top: 47px;
+        margin-bottom: 20px;
+        width: calc(100vw - 60px);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .footer__container {
+        width: calc(100vw - 20px);
+        margin-top: 79px;
+    }
+    .footer__nav-container {
+        margin-top: 30px;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .footer__title {
+        margin-top: 0px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+    }
+
+    .footer__nav-links {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer__year {
+        margin-top: 30px;
+        color: rgb(139, 139, 139);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+    }
+
+    .footer__nav-link {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px; 
     }
 }

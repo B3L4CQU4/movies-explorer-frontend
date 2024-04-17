@@ -5,15 +5,15 @@ import landingLogo from '../../../images/landing_logo.svg';
 function Promo() {
   return (
       <section className="promo">
-        <div className="promoContainer">
-            <h1 className="promoTitle">
+        <div className="promo__container">
+            <h1 className="promo__title">
                 Учебный проект студента факультета Веб-разработки.
             </h1>
             <img
             loading="lazy"
             src={landingLogo}
-            alt="Landing Logo"
-            className="promoImage"
+            alt="Логотип"
+            className="promo__image"
             />
         </div>
       </section>
