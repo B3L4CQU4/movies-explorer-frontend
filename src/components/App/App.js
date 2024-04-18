@@ -22,9 +22,9 @@ function App() {
 
   // возможность для расширения списка проектов 
   const portfolioLinks = [
-    { id: 1, title: 'Статичный сайт', href: '#' },
-    { id: 2, title: 'Адаптивный сайт', href: '#' },
-    { id: 3, title: 'Одностраничное приложение', href: '#' },
+    { id: 1, title: 'Статичный сайт', href: 'https://github.com/B3L4CQU4/russian-travel' },
+    { id: 2, title: 'Адаптивный сайт', href: 'https://github.com/B3L4CQU4/mesto' },
+    { id: 3, title: 'Одностраничное приложение', href: 'https://github.com/B3L4CQU4/react-mesto-api-full-gha' },
   ];
 
   const toggleLogin = () => {

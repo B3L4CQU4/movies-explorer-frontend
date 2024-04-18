@@ -153,6 +153,10 @@
     text-align: right;
 }
 
+.header__unauthorized-signup:hover {
+    opacity: 0.7;
+}
+
 .header__unauthorized-signin {
     margin-left: 30px;
     display: flex;
@@ -162,6 +166,10 @@
     height: 32px;
     border-radius: 3px;
     background: rgb(61, 220, 132);
+}
+
+.header__unauthorized-signin:hover {
+    opacity: 0.8;
 }
 
 

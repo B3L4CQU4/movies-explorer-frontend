@@ -158,6 +158,10 @@
     text-align: center;
 }
 
+.login-form__nav-link:hover {
+    opacity: 0.7;
+}
+
 @media screen and (min-width: 1281px) {
     .login-form__container {
       max-width: 396px;

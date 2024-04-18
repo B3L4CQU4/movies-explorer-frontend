@@ -68,6 +68,10 @@
     text-align: right;    
 }
 
+.footer__nav-link:hover {
+    opacity: 0.7;
+}
+
 @media screen and (min-width: 1281px) {
     .footer__container {
       max-width: 1140px;

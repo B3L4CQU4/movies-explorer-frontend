@@ -114,6 +114,10 @@
     justify-content: space-between;
 }
 
+.portfolio__link:hover {
+    opacity: 0.7;
+}
+
 .portfolio__link-line {
     margin-top: 14px;
     margin-bottom: 20px;
