@@ -12,6 +12,9 @@
     width: calc(100vw - 140px);
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 69px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #424242;
 }
 
 .search-form__element {
@@ -91,17 +94,11 @@
     opacity: 0.8;
 }
 
-.search-form__element-row {
-    width: 40px;
-    height: 1px;
-    transform: rotate(90.00deg);
-    background: rgb(66, 66, 66);
-}
-
 .search-form__element-filter {
     display: flex;
     align-items: center;
     gap: 14px;
+    margin-left: 29px;
 }
 
 /* автор оригинального тоггла https://danklammer.com/articles/simple-css-toggle-switch/ */
@@ -157,12 +154,15 @@
 
 .search-form__element-input-container {
     display: flex;
+    padding-right: 30px;
+    border-right: 1px solid rgb(66, 66, 66);;
 }
 
 @media screen and (min-width: 1281px) {
     .search-form__container {
       width: 1140px;
     }
+    
     .search-form__element-input {
       width: 740px;
     }
@@ -170,8 +170,18 @@
 
 @media screen and (max-width: 1279px) {
     .search-form__container {
-        width: calc(100vw - 60px);
+        width: 708px;
         margin-top: 80px;
+        padding-bottom: 109px;
+        margin-bottom: 10px;
+    }
+
+    .search-form__element-input-container {
+        padding-right: 19px;
+    }
+
+    .search-form__element-filter {
+        margin-left: 19px;
     }
 
     .search-form__element-input {
@@ -186,8 +196,9 @@
 
 @media screen and (max-width: 767px) {
     .search-form__container {
-        width: calc(100vw - 20px);
-        margin-top: 80px;
+        width: 300px;
+        margin-top: 65px;
+        padding-bottom: 24px;
     }
 
     .search-form__element {
@@ -227,11 +238,16 @@
         box-shadow: 0px 0px 20px 1px #00000052;
         width: 300px;
         height: 72px;
+        padding: 0;
     }
 
     .search-form__element-submit {
-        height: 38px;
         align-self: center;
+        margin-left: 24px;
+    }
+
+    .search-form__element-filter {
+        margin-left: 0;
     }
 
     .search-form__element-filter-text {

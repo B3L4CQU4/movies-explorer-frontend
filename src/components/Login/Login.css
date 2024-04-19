@@ -162,6 +162,15 @@
     opacity: 0.7;
 }
 
+.login-form__link {
+    margin: 0;
+    padding: 0;
+    background: inherit;
+    text-decoration: none;
+    width: 38px;
+    height: 38px;
+}
+
 @media screen and (min-width: 1281px) {
     .login-form__container {
       max-width: 396px;
@@ -170,17 +179,28 @@
 
 @media screen and (max-width: 1279px) {
     .login-form__container {
-        width: calc(100vw - 372px);
+        width: 396px;
         margin-top: 232px;
+    }
+
+    .login-form__element-submit {
+        margin-top: 138px;
     }
 }
 
 @media screen and (max-width: 767px) {
     .login-form__container {
-        width: calc(100vw - 60px);
+        width: 260px;
         margin-top: 56px;
+        align-items: center;
     }
+
+    .login-form__element-email{
+        margin-top: 80px;
+    }
+
     .login-form__element-submit {
+        margin-top: 226px;
         width: 260px;
         height: 45px;
         color: rgb(255, 255, 255);

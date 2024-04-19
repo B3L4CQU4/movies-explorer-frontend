@@ -22,7 +22,6 @@
 
 .footer__title {
     margin: 0;
-    margin-top: 32px;
     color: #8b8b8b;
     font-size: 13px;
     font-weight: 400;
@@ -82,13 +81,13 @@
     .footer__container {
         margin-top: 47px;
         margin-bottom: 20px;
-        width: calc(100vw - 60px);
+        width: 708px;
     }
 }
 
 @media screen and (max-width: 767px) {
     .footer__container {
-        width: calc(100vw - 20px);
+        width: 300px;
         margin-top: 79px;
     }
     .footer__nav-container {

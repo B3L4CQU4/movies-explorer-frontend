@@ -34,10 +34,11 @@ function Header({ className, isLogined, showMenu, isPopupOpen, setIsPopupOpen, i
             </a>
           ) : (
             <>
-              <button className="header__menu-button" onClick={() => setIsPopupOpen(!isPopupOpen)}></button>
-              {isPopupOpen && (
+              <button className="header__menu-button" onClick={() => setIsPopupOpen(!isPopupOpen)} type='button'></button>
+              {isPopupOpen && (<>
+                <div className="header__menu-overlay"></div>
                 <div className="header__menu">
-                  <button className="header__menu-close-button" onClick={() => setIsPopupOpen(!isPopupOpen)}></button>
+                  <button className="header__menu-close-button" onClick={() => setIsPopupOpen(!isPopupOpen)} type='button'></button>
                   <div className="header__menu-container">
                     <ul className="header__menu-nav-links">
                       <li className="header__menu-item">
@@ -60,6 +61,7 @@ function Header({ className, isLogined, showMenu, isPopupOpen, setIsPopupOpen, i
                       </a>
                   </div>
                 </div>
+                </>
               )}
             </>
           )

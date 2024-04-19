@@ -19,6 +19,7 @@ function App() {
   const [showMenu, setShowMenu] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // возможность для расширения списка проектов 
   const portfolioLinks = [
@@ -91,7 +92,6 @@ function App() {
   };
 
   const HeaderWithLocation = () => {
-    const location = useLocation();
     const headerClass = location.pathname === '/' ? 'header-mine' : 'header-other';
     const isActiveMenuItem = (path) => {
       return location.pathname === path ? 'active-menu-item' : '';
@@ -156,16 +156,9 @@ function App() {
               <Profile toggleLogin={toggleLogin} />
             </>
           } />
-          <Route path="/404" element={<PageNotFound />} />
-          <Route path="*" element={<Navigate to="/404" />} />
+          <Route path="*" element={<PageNotFound />} />
       </Routes>
-      {
-        window.location.pathname !== "/signin" && 
-        window.location.pathname !== "/signup" && 
-        window.location.pathname !== "/profile" && 
-        window.location.pathname !== "/404" && 
-        <Footer />
-      }
+      {["/", "/movies", "/saved-movies"].includes(location.pathname) && <Footer />}
     </div>
   );
 }

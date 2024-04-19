@@ -43,7 +43,7 @@
 
 @media screen and (max-width: 1279px) {
     .promo__container {
-        width: calc(100vw - 88px);
+        width: 680px;
         margin-top: 374px;
         align-items: center;
     }
@@ -61,8 +61,8 @@
 
 @media screen and (max-width: 767px) {
     .promo__container {
-        width: calc(100vw - 20px);
-        margin-top: 257px;
+        width: 300px;
+        margin-top: 260px;
     }
 
     .promo__title{
@@ -77,7 +77,13 @@
         width: 320px;
         height: 230px;
         align-self: center;
-        overflow: hidden;
         object-fit: cover;
+        overflow: visible;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    .promo__image {
+        overflow: hidden;
     }
 }

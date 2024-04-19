@@ -21,13 +21,15 @@ function Login ({ toggleLogin }) {
   return (
     <section className="login-form">
       <div className="login-form__container">
-        <img className="login-form__logo" src={logo} alt="Лого"></img>
+        <a className="login-form__link" href='/'> 
+          <img className="login-form__logo" src={logo} alt="Лого"></img>
+        </a>
         <h1 className="login-form__title">Рады видеть!</h1>
         <form className="login-form__element">
             {FormElements.map((element) => (
                         <FormElement key={element.id} className={element.className} text={element.text} />
             ))}
-            <button className="login-form__element-submit" onClick={toggleLogin} >Войти</button>
+            <button className="login-form__element-submit" onClick={toggleLogin} type='submit'>Войти</button>
         </form>
         <div className="login-form__nav">
             <span className="login-form__nav-title">Ещё не зарегистрированы?</span>

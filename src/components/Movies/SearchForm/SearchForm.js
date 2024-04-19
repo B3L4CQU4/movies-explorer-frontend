@@ -11,16 +11,14 @@ function SearchForm() {
             <img src={search_icon} alt="" className="search-form__element-icon" />
             <div className="search-form__element-input-container">
               <input className="search-form__element-input" placeholder="Фильм"></input>
-              <button className="search-form__element-submit">Найти</button>
+              <button type='submit' className="search-form__element-submit">Найти</button>
             </div>
-            <div className="search-form__element-row"></div>
             <div className="search-form__element-filter">
                 <input className="search-form__element-filter-toggle" type="checkbox" />
                 <span className="search-form__element-filter-text">Короткометражки</span>
             </div>
           </div>
         </form>
-        <div className="search-form__line"></div>
       </div>
     </section>
   );

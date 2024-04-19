@@ -23,12 +23,8 @@
     line-height: 27px;
     letter-spacing: -0.04em;
     text-align: left;
-}
-
-.portfolio__title-line {
-    background-color: rgba(218, 218, 218, 1);
-    margin-top: 23px;
-    height: 1px;
+    padding-bottom: 23px;
+    border-bottom: 1px solid rgba(218, 218, 218, 1);
 }
 
 .portfolio__description-container {
@@ -74,6 +70,8 @@
 }
 
 .portfolio__info-description-subtitle {
+    text-decoration: none;
+    color: inherit;
     margin: 0;
     margin-top: 99px;
     font-size: 14px;
@@ -107,6 +105,18 @@
     text-align: left;
 }
 
+.portfolio__links-container {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.portfolio__link-container {
+    padding-bottom: 13px;
+    border-bottom: 1px solid rgba(218, 218, 218, 1);
+    margin-bottom: 21px;    
+}
+
 .portfolio__link {
     text-decoration: none;
     display: flex;
@@ -114,20 +124,16 @@
     justify-content: space-between;
 }
 
+.portfolio__link-container:last-of-type {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
 .portfolio__link:hover {
     opacity: 0.7;
 }
 
-.portfolio__link-line {
-    margin-top: 14px;
-    margin-bottom: 20px;
-    background-color: #424242;
-    height: 1px;
-}
-
-.portfolio__nav .portfolio__link-line:last-child {
-    display: none;
-}
 
 .portfolio__link-title {
     margin: 0;
@@ -153,8 +159,9 @@
 
 @media screen and (max-width: 1279px) {
     .portfolio__container {
-        width: calc(100vw - 100px);
+        width: 668px;
         margin-top: 90px;
+        margin-bottom: 116px;
     }
     .portfolio__info {
         max-width: 364px;
@@ -206,7 +213,7 @@
         margin-top: 60px;
     }
     .portfolio__container {
-        width: calc(100vw - 28px);
+        width: 292px;
         margin-top: 70px;
         margin-bottom: 70px;
     }
@@ -215,6 +222,7 @@
         font-size: 18px;
         font-weight: 400;
         line-height: 22px;
+        padding-bottom: 27px;
     }
 
     .portfolio__title-line {
@@ -262,6 +270,11 @@
         font-size: 14px;
         font-weight: 400;
         line-height: 20px;
+    }
+
+    .portfolio__link-container {
+        padding-bottom: 19px;
+        margin-bottom: 20px;
     }
 
     .portfolio__link-title {

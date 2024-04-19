@@ -12,23 +12,23 @@ function MovieCard({ movie, toggleLike, likedMovies }) {
     }
 
     return (
-        <div className="card__container">
-            <div className="card__img-container">
-                <img className="card__img-container-img" src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU} />
+        <div className="movies__card-container">
+            <div className="movies__card-img-container">
+                <img className="movies__card-img-container-img" src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU} />
             </div>
-            <div className="card__info">
-                <a className="card__info-link" href={movie.trailerLink}>
-                    <h2 className="card__info-name">{movie.nameRU}</h2>
+            <div className="movies__card-info">
+                <a className="movies__card-info-link" href={movie.trailerLink}>
+                    <h2 className="movies__card-info-name">{movie.nameRU}</h2>
                 </a>
                 <button 
-                    className={`card__like-button ${isLiked ? 'card__like-button_liked' : ''}`}
+                    className={`movies__card-like-button ${isLiked ? 'movies__card-like-button_liked' : ''}`}
                     onClick={() => toggleLike(movie.id)}
+                    type='button'
                 ></button>
             </div>
-            <div className="card__line"></div>
-            <p className="card__movie-duration">{formatDuration(movie.duration)}</p>
+            <p className="movies__card-movie-duration">{formatDuration(movie.duration)}</p>
         </div>
     );
 }
 
-export default MovieCard
+export default MovieCard 

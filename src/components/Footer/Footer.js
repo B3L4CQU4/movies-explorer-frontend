@@ -18,7 +18,7 @@ function Footer() {
             <div className="footer__year">© {year}</div>
             <div className="footer__nav-links">
               {links.map((link, index) => (
-                <a key={index} href={link.url} className="footer__nav-link">{link.name}</a>
+                <a key={index} href={link.url} className="footer__nav-link" target="_blank">{link.name}</a>
               ))}
             </div>
           </div>

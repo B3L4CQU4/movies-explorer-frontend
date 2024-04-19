@@ -6,7 +6,7 @@ function PageNotFound() {
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        navigate(-2, { replace: true });
+      window.history.back();
     };
 
   return (
@@ -14,7 +14,7 @@ function PageNotFound() {
       <div className="not-found__container">
         <h1 className="not-found__title">404</h1>
         <p className="not-found__sub-title">Страница не найдена</p>
-        <button className="not-found__link" onClick={handleGoBack}>Назад</button>
+        <button type='button' className="not-found__link" onClick={handleGoBack}>Назад</button>
       </div>
     </section>
   );

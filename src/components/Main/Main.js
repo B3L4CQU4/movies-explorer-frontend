@@ -6,12 +6,12 @@ import Portfolio from './Portfolio/Portfolio.js';
 
 function Main({ portfolioLinks }) {
   return (
-    <>
+    <main>
         <Promo />
         <AboutProject />
         <Techs />
         <Portfolio portfolioLinks={portfolioLinks} />
-    </>
+    </main>
   );
 };
 

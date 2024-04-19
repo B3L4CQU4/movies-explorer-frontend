@@ -1,4 +1,4 @@
-.movies-cards {
+.movies {
     display: flex;
     flex-direction: column;
     color: white;
@@ -6,25 +6,25 @@
     background-color: #202020;    
 }
 
-.movies-cards__container {
-    margin-top: 100px;
+.movies__container {
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
     width: calc(100vw - 140px);
     margin-left: auto;
-    margin-right: auto;    
+    margin-right: auto;
 }
 
-.movies-cards__container-grid {
+.movies__container-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
-    row-gap: 36px;
+    row-gap: 39px;
     justify-items: center;
 }
 
 .movies__more-container {
-    margin-top: 50px;
+    margin-top: 60px;
     margin-bottom: 80px;
     display: flex;
     justify-content: center;
@@ -58,28 +58,34 @@
 }
 
 @media screen and (min-width: 1281px) {
-    .movies-cards__container {
+    .movies__container {
       max-width: 1140px;
     }
 }
 
 @media screen and (max-width: 1279px) {
-    .movies-cards__container {
-        width: calc(100vw - 60px);
+    .movies__container {
+        width: 708px;
         margin-top: 70px;
     }
-    .movies-cards__container-grid {
+    .movies__container-grid {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 30px;
         row-gap: 30px;
     }
+
+    .movies__more-container {
+        margin-top: 61px;
+        margin-bottom: 112px;
+    }
 }
 
 @media screen and (max-width: 767px) {
-    .movies-cards__container {
+    .movies__container {
         width: calc(100vw - 20px);
+        margin-top: 40px;
     }
-    .movies-cards__container-grid {
+    .movies__container-grid {
         grid-template-columns: 1fr;
         column-gap: 0;
         row-gap: 34px;
@@ -87,5 +93,10 @@
     .movies__more-button {
         width: 240px;
         height: 36px;
+    }
+
+    .movies__more-container {
+        margin-top: 60px;
+        margin-bottom: 80px;
     }
 }

@@ -34,8 +34,8 @@ function Profile ({ toggleLogin }) {
                         />
             ))}
             <div className="profile__nav">
-                <button className="profile__nav-button" >Редактировать</button>
-                <button className="profile__nav-button" onClick={toggleLogin} >Выйти из аккаунта</button>
+                <button type='button' className="profile__nav-button" >Редактировать</button>
+                <button type='button' className="profile__nav-button" onClick={toggleLogin} >Выйти из аккаунта</button>
             </div>
         </div>
       </div>

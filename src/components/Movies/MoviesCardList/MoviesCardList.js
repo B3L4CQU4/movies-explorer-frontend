@@ -5,9 +5,9 @@ import MovieCard from '../MovieCard/MovieCard.js';
 
 function MoviesCardList({ MoviesData, setVisibleMoviesCount, visibleMoviesCount, toggleLike, likedMovies }) {
     return (
-        <section className="movies-cards">
-            <div className="movies-cards__container">
-                <div className="movies-cards__container-grid">
+        <section className="movies">
+            <div className="movies__container">
+                <div className="movies__container-grid">
                     {MoviesData.slice(0, visibleMoviesCount).map(movie => (
                         <MovieCard 
                             key={movie.id} 
@@ -22,6 +22,7 @@ function MoviesCardList({ MoviesData, setVisibleMoviesCount, visibleMoviesCount,
                         <button 
                             className="movies__more-button" 
                             onClick={() => setVisibleMoviesCount(prevCount => prevCount + 16)}
+                            type='button'
                         >Ещё
                         </button>
                     </div>
