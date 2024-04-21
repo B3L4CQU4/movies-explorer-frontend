@@ -3,7 +3,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
 function SavedMoviesPage({
-    moviesData,
+    moviesData, 
     setMoviesData,
     visibleMoviesCount, 
     setVisibleMoviesCount, 
@@ -12,12 +12,13 @@ function SavedMoviesPage({
     setLikedMovies,
     handleSearch, 
     isLoading, 
-    setIsLoading 
+    setIsLoading,
 }) {
     // Фильтруем moviesData по id фильмов из likedMovies
     const likedMovieIds = likedMovies.map(movie => movie.movieId);
     const allMoviesData = JSON.parse(localStorage.getItem('allMoviesData')) || [];
     const likedMoviesData = allMoviesData.filter(movie => likedMovieIds.includes(movie.id));
+    localStorage.setItem("likedMoviesData", JSON.stringify(likedMoviesData))
 
     return (
         <>

@@ -220,48 +220,41 @@ function App() {
 
   const toggleLike = async (movieId) => {
     try {
-        // Step 1: Retrieve allMoviesData from local storage
         const allMoviesData = JSON.parse(localStorage.getItem('allMoviesData'));
 
-        // Step 2: Find the movie in allMoviesData by id
         const movie = allMoviesData.find(movie => movie.id === movieId);
         if (!movie) {
             console.error('Movie not found');
             return;
         }
 
-        // Step 3: Get the id from currentUser
-        const userId = currentUser.id; // Assuming currentUser has an id property
+        const userId = currentUser.id; 
 
-        // Step 4: Check if the movie is already liked
         const isLiked = likedMovies.some(movie => movie.movieId === movieId);
 
         if (isLiked) {
-          // Step 5: Find the movie by movieId in likedMovies
+
           const likedMovie = likedMovies.find(movie => movie.movieId === movieId);
           if (!likedMovie) {
               console.error('Liked movie not found');
               return;
           }
 
-          // Step 6: Send request to api.deleteMovie to remove the movie by _id
           await api.deleteMovie(likedMovie._id);
 
-          // Step 7: Update likedMovies state and local storage to remove the unliked movie
           const updatedLikedMovies = likedMovies.filter(movie => movie.movieId !== movieId);
           setLikedMovies(updatedLikedMovies);
           localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMovies));
         } else {
-            // Step 7: Send request to api.createMovie to like the movie
             const newMovieData = {
                 country: movie.country,
                 director: movie.director,
                 duration: movie.duration,
                 year: movie.year,
                 description: movie.description,
-                image: `https://api.belacqua-diploma.nomoredomainswork.ru${movie.image.url}`,
+                image: `https://api.nomoreparties.co/beatfilm-movies${movie.image.url}`,
                 trailerLink: movie.trailerLink,
-                thumbnail: `https://api.belacqua-diploma.nomoredomainswork.ru${movie.image.formats.thumbnail.url}`,
+                thumbnail: `https://api.nomoreparties.co/beatfilm-movies${movie.image.formats.thumbnail.url}`,
                 movieId: movieId,
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
@@ -270,7 +263,6 @@ function App() {
 
             const createdMovie = await api.createMovie(newMovieData);
 
-            // Step 8: Add the response from api.createMovie to likedMovies
             setLikedMovies(prevLikedMovies => [...prevLikedMovies, createdMovie]);
             console.log(likedMovies);
         }
