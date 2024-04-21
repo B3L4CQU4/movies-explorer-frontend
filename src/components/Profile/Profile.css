@@ -37,10 +37,18 @@
     border-bottom: 1px solid rgb(66, 66, 66);
 }
 
+.error_profile {
+    margin-top: 3px;
+}
+
 .profile__info-container:nth-of-type(2) {
     margin-top: 17px;
     padding-bottom: 0; 
     border-bottom: none; 
+}
+
+.profile__info-container_form:nth-of-type(2){
+    margin-top: 0;
 }
 
 .profile__info-name {
@@ -61,10 +69,50 @@
     letter-spacing: 0px;
 }
 
+.profile__info-input {
+    background: initial; 
+    border: initial;
+    box-shadow: initial; 
+    padding: initial; 
+    cursor: initial; 
+    outline: initial;
+    text-align: right;
+}
+
+.profile__info-input::placeholder {
+    color: rgb(255, 255, 255); 
+  }
+
 .profile__nav {
     margin-top: 220px;
     display: flex;
     flex-direction: column;
+}
+
+.profile__save-button {
+    margin: 0;
+    padding: 0;
+    border: none; 
+    box-shadow: none; 
+    outline: none;
+    cursor: pointer;   
+    border-radius: 3px;
+    background: rgb(66, 133, 244);
+    width: 396px;
+    height: 45px;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0%;
+    text-align: center;
+    align-self: center;
+}
+
+.profile__save-button_disabled {
+    opacity: 0.8;
+    cursor: inherit;
 }
 
 .profile__nav-button {

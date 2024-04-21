@@ -158,6 +158,15 @@
     border-right: 1px solid rgb(66, 66, 66);;
 }
 
+.error_filter {
+    display: block;
+}
+
+.search-form__element-submit_disabled {
+    opacity: 0.8;
+    cursor: inherit;
+}
+
 @media screen and (min-width: 1281px) {
     .search-form__container {
       width: 1140px;

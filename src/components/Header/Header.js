@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './Header.css';
 import logo from '../../images/logo.svg';
 import account_icon from '../../images/account_icon.svg';
 
-function Header({ className, isLogined, showMenu, isPopupOpen, setIsPopupOpen, isActiveMenuItem }) {
+function Header({ className, showMenu, isPopupOpen, setIsPopupOpen, isActiveMenuItem }) {
+  const isLogined = localStorage.getItem("isLogined")
   return (
     <header className={`header ${className}`}>
       <div className="header__container">
@@ -80,4 +81,4 @@ function Header({ className, isLogined, showMenu, isPopupOpen, setIsPopupOpen, i
   );
 }
 
-export default Header;
+export default memo(Header);

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieCard.css';
 
-function MovieCard({ movie, toggleLike, likedMovies }) {
-    const isLiked = likedMovies.includes(movie.id);
+function MovieCard({ movie, toggleLike, likedMovies, setLikedMovies }) {
+    function isLiked(movieId) {
+        return likedMovies.some(likedMovie => likedMovie.movieId === movieId);
+    }
 
     function formatDuration(duration) {
         const hours = Math.floor(duration / 60); 
@@ -10,6 +12,15 @@ function MovieCard({ movie, toggleLike, likedMovies }) {
 
         return `${hours}ч ${minutes}м`; 
     }
+
+    const handleLikeToggle = () => {
+        toggleLike(movie.id);
+        const updatedLikedMovies = isLiked(movie.id) ?
+            likedMovies.filter(likedMovie => likedMovie.movieId !== movie.id) :
+            [...likedMovies, { movieId: movie.id }];
+        setLikedMovies(updatedLikedMovies);
+        localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMovies));
+    };
 
     return (
         <div className="movies__card-container">
@@ -21,8 +32,8 @@ function MovieCard({ movie, toggleLike, likedMovies }) {
                     <h2 className="movies__card-info-name">{movie.nameRU}</h2>
                 </a>
                 <button 
-                    className={`movies__card-like-button ${isLiked ? 'movies__card-like-button_liked' : ''}`}
-                    onClick={() => toggleLike(movie.id)}
+                    className={`movies__card-like-button ${isLiked(movie.id) ? 'movies__card-like-button_liked' : ''}`}
+                    onClick={handleLikeToggle}
                     type='button'
                 ></button>
             </div>
@@ -30,5 +41,4 @@ function MovieCard({ movie, toggleLike, likedMovies }) {
         </div>
     );
 }
-
 export default MovieCard 
