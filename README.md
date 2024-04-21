@@ -27,4 +27,6 @@ Movies Browser — cервис, в котором можно найти филь
 
 ссылка на проект https://belacqua-diploma.nomoredomainswork.ru/
 
+ссылка на пул реквест https://github.com/B3L4CQU4/movies-explorer-frontend/pull/5
+
 
