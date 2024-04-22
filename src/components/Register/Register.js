@@ -35,7 +35,7 @@ function Register({handleRegistration, isLoading, setIsLoading}) {
   };
 
   const onSuccessful = () => {
-    navigate('/'); 
+    navigate('/movies'); 
     console.log('Регистрация успешна');
   };
 

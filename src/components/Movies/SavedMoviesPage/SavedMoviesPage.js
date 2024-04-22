@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
@@ -8,17 +8,13 @@ function SavedMoviesPage({
     visibleMoviesCount, 
     setVisibleMoviesCount, 
     toggleLike, 
-    likedMovies, 
-    setLikedMovies,
     handleSearch, 
     isLoading, 
     setIsLoading,
+    likedMovies,
+    setLikedMovies,
+    currentUser
 }) {
-    // Фильтруем moviesData по id фильмов из likedMovies
-    const likedMovieIds = likedMovies.map(movie => movie.movieId);
-    const allMoviesData = JSON.parse(localStorage.getItem('allMoviesData')) || [];
-    const likedMoviesData = allMoviesData.filter(movie => likedMovieIds.includes(movie.id));
-    localStorage.setItem("likedMoviesData", JSON.stringify(likedMoviesData))
 
     return (
         <>
@@ -28,14 +24,15 @@ function SavedMoviesPage({
                 setIsLoading={setIsLoading}
             />
             <MoviesCardList 
-                moviesData={likedMoviesData}
+                moviesData={moviesData}
                 setMoviesData={setMoviesData}
                 setVisibleMoviesCount={setVisibleMoviesCount} 
                 visibleMoviesCount={visibleMoviesCount}
                 toggleLike={toggleLike}
+                isLoading={isLoading}
                 setLikedMovies={setLikedMovies}
                 likedMovies={likedMovies}
-                isLoading={isLoading}
+                currentUser={currentUser}
             />
         </>
     );

@@ -59,6 +59,10 @@
     cursor: pointer;
 }
 
+.movies__card-remove-button {
+    background-image: url('../../../images/close_icon.svg');
+}
+
 .movies__card-like-button:focus {
     outline: none; 
 }

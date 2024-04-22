@@ -18,7 +18,7 @@ function Login ({ handleLogin, isLoading, setIsLoading }) {
   };
 
   const onSuccessful = () => {
-    navigate('/'); 
+    navigate('/movies'); 
   }; 
 
   const onFailed = (error) => {

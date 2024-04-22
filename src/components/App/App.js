@@ -41,10 +41,8 @@ function App() {
           setCurrentUser(currentUser);
           updateUserData(tokenData.email);
           setIsLogined(true);
-          console.log(`после кстановки в true = ${isLogined}`);
         } catch (err) {
           console.log(err);
-          console.log(`после ошибки ${isLogined}`);
           setIsLogined(false);
         }
       }
@@ -55,9 +53,10 @@ function App() {
 
   useEffect(() => {
     if (isLogined) {
-        getSavedMovies();
+        getMovies();
+        getLikedMovies();
     }
-}, [isLogined]);
+  }, [isLogined]);
 
   useEffect(() => {
     const savedFilteredMoviesData = localStorage.getItem('filteredMoviesData');
@@ -66,16 +65,42 @@ function App() {
     }
   }, []);
 
-  const getSavedMovies = async () => {
+
+  useEffect(() => {
+    if (location.pathname === '/saved-movies') {
+      const likedMovies = localStorage.getItem("likedMoviesData")
+      //console.log(likedMovies)
+      //console.log(moviesData)
+      setMoviesData(JSON.parse(likedMovies))
+    }
+  }, []);
+
+
+  const getMovies = async () => {
     try {
-        const savedMoviesData = await api.getSavedMovies();
-        setLikedMovies(savedMoviesData);
-        // Сохраняем полученные фильмы в локальное хранилище
-        localStorage.setItem('likedMovies', JSON.stringify(savedMoviesData));
+        const newMoviesData = await moviesApi.getMoviesCards();
+        localStorage.setItem('allMoviesData', JSON.stringify(newMoviesData));
+        return newMoviesData
     } catch (error) {
         console.error('Error fetching saved movies:', error);
     }
-};
+  };
+  
+  const getLikedMovies = async () => {
+    try {
+        const likedMovies = await api.getSavedMovies();
+        const likedMovieIds = likedMovies.map(movie => movie.movieId);
+        let allMoviesData = JSON.parse(localStorage.getItem('allMoviesData')) || [];
+        if (allMoviesData.length === 0) {
+          allMoviesData = await getMovies(); 
+        }
+        const likedMoviesData = allMoviesData.filter(movie => likedMovieIds.includes(movie.id));
+        localStorage.setItem("likedMoviesData", JSON.stringify(likedMoviesData));
+        setLikedMovies(likedMoviesData);
+    } catch (error) {
+        console.error('Error fetching saved movies:', error);
+    }
+  };
 
   // возможность для расширения списка проектов 
   const portfolioLinks = [
@@ -118,14 +143,19 @@ function App() {
 
   const handleUpdateProfile = async (name, email, onSuccessful, onFailed) => {
     try {
-      await api.updateProfile(name, email);
-      const currentUser = await api.getUserInfo()
-      setCurrentUser(currentUser)
-      onSuccessful(); 
+        const currentUser = await api.getUserInfo();
+        if (name !== currentUser.name && email !== currentUser.email) {
+            await api.updateProfile(name, email);
+            setCurrentUser(currentUser);
+            onSuccessful();
+        } else {
+            const error = new Error("Name and email are same as current user's");
+            throw error; 
+        }
     } catch (error) {
-      console.log(error);
-      const handledError = handleErrorMiddleware(error);
-      onFailed(handledError); 
+        console.log(error);
+        const handledError = handleErrorMiddleware(error);
+        onFailed(handledError);
     }
   };
 
@@ -154,9 +184,7 @@ function App() {
       if (!localStorage.getItem('filteredMoviesData')) {
         const filteredMoviesData = moviesData.filter(movie => {
           const isTitleContainsQuery = movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) || movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase());
-          
           const isShort = movie.duration < 40;
-
           return isTitleContainsQuery && (isShortFilm ? isShort : true);
       });
         setMoviesData(filteredMoviesData);
@@ -332,6 +360,7 @@ function App() {
                 handleSearch={handleSearch}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading} 
+                currentUser={currentUser}
                 />
               </ProtectedRoute>
           } />
@@ -349,6 +378,7 @@ function App() {
                 handleSearch={handleSearch}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading} 
+                currentUser={currentUser}
                 />
             </ProtectedRoute>
           } />

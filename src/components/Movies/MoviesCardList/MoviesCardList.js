@@ -11,8 +11,10 @@ function MoviesCardList({
     toggleLike, 
     likedMovies, 
     setLikedMovies,
-    isLoading 
+    isLoading,
+    currentUser
 }) {
+
     return (
         <>
         {!isLoading ? (
@@ -27,6 +29,7 @@ function MoviesCardList({
                                     toggleLike={toggleLike}
                                     setLikedMovies={setLikedMovies}
                                     likedMovies={likedMovies}
+                                    currentUser={currentUser}
                                 />
                             ))}
                         </div>

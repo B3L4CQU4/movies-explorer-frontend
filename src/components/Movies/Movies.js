@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchForm from './SearchForm/SearchForm.js';
 import MoviesCardList from './MoviesCardList/MoviesCardList.js';
 
@@ -12,8 +12,10 @@ function Movies({
   setLikedMovies,
   handleSearch, 
   isLoading, 
-  setIsLoading 
+  setIsLoading,
+  currentUser
 }) {
+
   return (
     <>
         <SearchForm 
@@ -30,6 +32,7 @@ function Movies({
           setLikedMovies={setLikedMovies}
           likedMovies={likedMovies}
           isLoading={isLoading}
+          currentUser={currentUser}
         />
     </>
   );
