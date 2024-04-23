@@ -57,6 +57,19 @@
     height: 140px;
 }
 
+.movies__placeholder-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: 0px;
+    text-align: center;   
+}
+
 @media screen and (min-width: 1281px) {
     .movies__container {
       max-width: 1140px;

@@ -13,7 +13,11 @@ function Movies({
   handleSearch, 
   isLoading, 
   setIsLoading,
-  currentUser
+  currentUser,
+  searchQuery,
+  isShortFilm,
+  setIsShortFilm,
+  setSearchQuery
 }) {
 
   return (
@@ -22,6 +26,10 @@ function Movies({
           handleSearch={handleSearch}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          searchQuery={searchQuery}
+          isShortFilm={isShortFilm}
+          setIsShortFilm={setIsShortFilm}
+          setSearchQuery={setSearchQuery}
         />
         <MoviesCardList 
           moviesData={moviesData}

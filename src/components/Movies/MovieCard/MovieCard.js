@@ -14,7 +14,9 @@ function MovieCard({ movie, likedMovies, setLikedMovies, currentUser  }) {
     const handleLikeToggle = async () => {
         try {
             if (isLiked) {
-                const likedMoviesBd = await api.getSavedMovies();
+
+                const storedLikedMovies = localStorage.getItem("likedMoviesDataRaw");
+                const likedMoviesBd = JSON.parse(storedLikedMovies);
                 const likedMovieId = likedMoviesBd.find(likedMovie => likedMovie.movieId === movie.id)?._id;
                 await api.deleteMovie(likedMovieId);
                 

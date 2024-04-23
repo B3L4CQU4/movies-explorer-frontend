@@ -8,20 +8,28 @@ function SavedMoviesPage({
     visibleMoviesCount, 
     setVisibleMoviesCount, 
     toggleLike, 
-    handleSearch, 
     isLoading, 
     setIsLoading,
     likedMovies,
     setLikedMovies,
-    currentUser
+    currentUser,
+    handleLikedSearch,
+    searchQuery,
+    isShortFilm,
+    setIsShortFilm,
+    setSearchQuery
 }) {
 
     return (
         <>
             <SearchForm 
-                handleSearch={handleSearch}
+                handleLikedSearch={handleLikedSearch}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
+                searchQuery={searchQuery}
+                isShortFilm={isShortFilm}
+                setIsShortFilm={setIsShortFilm}
+                setSearchQuery={setSearchQuery}
             />
             <MoviesCardList 
                 moviesData={moviesData}

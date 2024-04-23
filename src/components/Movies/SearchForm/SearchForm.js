@@ -1,11 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 import search_icon from '../../../images/search_icon.svg';
 import FormValidator from '../../FormValidator/FormValidator.js'; 
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function SearchForm({ handleSearch, isLoading, setIsLoading }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isShortFilm, setIsShortFilm] = useState(false);
+function SearchForm({ 
+  handleSearch, 
+  isLoading, 
+  setIsLoading, 
+  handleLikedSearch, 
+  setIsShortFilm,
+  setSearchQuery,
+  isShortFilm,
+  searchQuery
+}) {
+
+  const location = useLocation();
 
   const handleSearchInputChange = (event) => {
     const { value } = event.target;
@@ -22,12 +33,22 @@ function SearchForm({ handleSearch, isLoading, setIsLoading }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
-      await handleSearch(searchQuery, isShortFilm)
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Failed to fetch movies:', error);
-      setIsLoading(false);
+    if (location.pathname !== '/saved-movies') {
+      try {
+        await handleSearch(searchQuery, isShortFilm)
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch movies:', error);
+        setIsLoading(false);
+      }
+    }  else {
+      try {
+        await handleLikedSearch(searchQuery, isShortFilm)
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch movies:', error);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -42,6 +63,22 @@ function SearchForm({ handleSearch, isLoading, setIsLoading }) {
     const formValidator = new FormValidator(config, formElement);
     formValidator.enableValidation();
   }, []);
+
+  useEffect(() => {
+    // Фильтрация результатов при изменении состояния isShortFil
+  
+    if (location.pathname !== '/saved-movies') {
+      if (localStorage.getItem('filteredInput')) {
+        const storedSearchQuery = JSON.parse(localStorage.getItem('filteredInput'));
+        handleSearch(storedSearchQuery, isShortFilm);
+      }
+    } else {
+      if (localStorage.getItem('filteredLikedInput')) {
+        const storedSearchQuery = JSON.parse(localStorage.getItem('filteredLikedInput'));
+        handleLikedSearch(storedSearchQuery, isShortFilm);
+      }
+    }
+  }, [isShortFilm]);
 
   return (
     <section className="search-form">

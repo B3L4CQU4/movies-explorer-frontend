@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 import FormValidator from '../FormValidator/FormValidator.js'; 
 import './Profile.css';
 
@@ -13,7 +14,10 @@ function Profile ({
   const [name, setName] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const [formValidator, setFormValidator] = useState(null);
+  const [isModified, setIsModified] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Добавленное состояние
+  const userContext = useContext(CurrentUserContext);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const ProfileElements = [
       { id: 1, className: 'name', infoText: 'Имя', text: `${currentUser.name}` },
@@ -48,20 +52,30 @@ function Profile ({
   };
 
   const handleNameChange = (event) => { 
-      setName(event.target.value);
-      formValidator._checkInputValidity(event.target); 
-  };
-  
-  const handleEmailChange = (event) => { 
-      setEmail(event.target.value);
-      formValidator._checkInputValidity(event.target);
-  };
+    setName(event.target.value);
+    if (userContext.name !== name || userContext.email !== email){
+        setIsModified(true)
+    } else {
+        setIsModified(false)
+    } // Обновляем isModified при изменении имени
+    formValidator._checkInputValidity(event.target); 
+};
 
+const handleEmailChange = (event) => { 
+    setEmail(event.target.value);
+    if (userContext.name !== name || userContext.email !== email){
+        setIsModified(false)
+    } else {
+        setIsModified(true)
+    } // Обновляем isModified при изменении email
+    formValidator._checkInputValidity(event.target);
+};
   const onSuccessful = () => {
-    setName(currentUser.name)
-    setName(currentUser.email)
-    setIsLoading("false")
-  };
+    setIsSuccess(true);
+    setName(currentUser.name);
+    setName(currentUser.email);
+    setIsLoading(false);
+};
 
   const onFailed = (error) => {
       document.getElementById('password-error').textContent = error;
@@ -73,22 +87,22 @@ function Profile ({
   }, [currentUser.name, currentUser.email]);
 
   useEffect(() => {
-      setIsButtonDisabled(true); // Блокируем кнопку при открытии формы
-      if (isEditing) {
-          const formElement = document.querySelector('.profile-form__element');
-          const config = {
-              inputSelector: '.profile__info-input',
-              saveBtnElement: '.profile__save-button',
-              inactiveButtonClass: 'profile__save-button_disabled',
-              inputErrorClass: 'profile__info-input_type_error',
-          };
-          const validator = new FormValidator(config, formElement);
-          validator.enableValidation();
-          setFormValidator(validator); 
-      } else {
-          setIsButtonDisabled(false); // Разблокируем кнопку при закрытии формы
-      }
-  }, [isEditing]); 
+    setIsButtonDisabled(true); // Блокируем кнопку при открытии формы
+    if (isEditing) {
+        const formElement = document.querySelector('.profile-form__element');
+        const config = {
+            inputSelector: '.profile__info-input',
+            saveBtnElement: '.profile__save-button',
+            inactiveButtonClass: 'profile__save-button_disabled',
+            inputErrorClass: 'profile__info-input_type_error',
+        };
+        const validator = new FormValidator(config, formElement, userContext, isModified);
+        validator.enableValidation();
+        setFormValidator(validator); 
+    } else {
+        setIsButtonDisabled(false); // Разблокируем кнопку при закрытии формы
+    }
+}, [isEditing, isModified]);
 
   return (
       <section className="profile">
@@ -104,6 +118,11 @@ function Profile ({
                               infoText={element.infoText} 
                           />
                       ))}
+                      {isSuccess && (
+                                <span className='success-message'>
+                                    Изменения успешно сохранены!
+                                </span>
+                            )}
                       <div className="profile__nav">
                           <button type='button' className="profile__nav-button" onClick={handleEdit}>Редактировать</button>
                           <button type='button' className="profile__nav-button" onClick={logOut} >Выйти из аккаунта</button>

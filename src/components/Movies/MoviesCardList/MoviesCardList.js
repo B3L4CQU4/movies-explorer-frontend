@@ -12,7 +12,7 @@ function MoviesCardList({
     likedMovies, 
     setLikedMovies,
     isLoading,
-    currentUser
+    currentUser,
 }) {
 
     return (
@@ -47,7 +47,7 @@ function MoviesCardList({
                         )}
                     </div>
                 </section>
-            ) : null
+            ) : (<span className="movies__placeholder-text">Нечего отображать. Начните поиск или попробуйте изменить его параметры</span>)
         ) : (
             <Preloader />
         )}

@@ -27,6 +27,8 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [moviesData, setMoviesData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isShortFilm, setIsShortFilm] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,19 +61,17 @@ function App() {
   }, [isLogined]);
 
   useEffect(() => {
-    const savedFilteredMoviesData = localStorage.getItem('filteredMoviesData');
-    if (savedFilteredMoviesData) {
-        setMoviesData(JSON.parse(savedFilteredMoviesData));
-    }
-  }, []);
-
-
-  useEffect(() => {
-    if (location.pathname === '/saved-movies') {
+    if (location.pathname === '/saved-movies' && !localStorage.getItem("filteredLikedMoviesData")) {
       const likedMovies = localStorage.getItem("likedMoviesData")
-      //console.log(likedMovies)
-      //console.log(moviesData)
       setMoviesData(JSON.parse(likedMovies))
+    } else if (location.pathname === '/saved-movies' && localStorage.getItem("filteredLikedMoviesData")) {
+      setMoviesData(JSON.parse(localStorage.getItem("filteredLikedMoviesData")))
+      setSearchQuery(JSON.parse(localStorage.getItem("filteredLikedInput")))
+      setIsShortFilm(JSON.parse(localStorage.getItem("filteredLikedToggle")))
+    } else if (localStorage.getItem("filteredMoviesData")) {
+      setMoviesData(JSON.parse(localStorage.getItem('filteredMoviesData')));
+      setSearchQuery(JSON.parse(localStorage.getItem("filteredInput")))
+      setIsShortFilm(JSON.parse(localStorage.getItem("filteredToggle")))
     }
   }, []);
 
@@ -89,6 +89,8 @@ function App() {
   const getLikedMovies = async () => {
     try {
         const likedMovies = await api.getSavedMovies();
+        localStorage.setItem("likedMoviesDataRaw", JSON.stringify(likedMovies));
+        
         const likedMovieIds = likedMovies.map(movie => movie.movieId);
         let allMoviesData = JSON.parse(localStorage.getItem('allMoviesData')) || [];
         if (allMoviesData.length === 0) {
@@ -143,15 +145,12 @@ function App() {
 
   const handleUpdateProfile = async (name, email, onSuccessful, onFailed) => {
     try {
-        const currentUser = await api.getUserInfo();
-        if (name !== currentUser.name && email !== currentUser.email) {
-            await api.updateProfile(name, email);
-            setCurrentUser(currentUser);
-            onSuccessful();
-        } else {
-            const error = new Error("Name and email are same as current user's");
-            throw error; 
-        }
+            
+      await api.updateProfile(name, email);
+      const currentUser = await api.getUserInfo();
+      setCurrentUser(currentUser);
+      onSuccessful();
+        
     } catch (error) {
         console.log(error);
         const handledError = handleErrorMiddleware(error);
@@ -180,20 +179,54 @@ function App() {
   };
 
   const searchSavedMovies = (moviesData, searchQuery, isShortFilm) => {
-      // Осуществляем поиск и фильтрацию по сохранённым данным
-      if (!localStorage.getItem('filteredMoviesData')) {
-        const filteredMoviesData = moviesData.filter(movie => {
-          const isTitleContainsQuery = movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) || movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase());
-          const isShort = movie.duration < 40;
-          return isTitleContainsQuery && (isShortFilm ? isShort : true);
+    // Осуществляем поиск и фильтрацию по сохранённым данным
+    if (!localStorage.getItem('filteredMoviesData')) {
+      const filteredMoviesData = moviesData.filter(movie => {
+        const isTitleContainsQuery = movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) || movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase());
+        const isShort = movie.duration < 40;
+        return isTitleContainsQuery && (isShortFilm ? isShort : true);
       });
-        setMoviesData(filteredMoviesData);
-        localStorage.setItem('filteredMoviesData', JSON.stringify(filteredMoviesData));
-      } else {
-        //да, тут рекурсия. Наверное она тут оправдана 
-        localStorage.removeItem('filteredMoviesData')
-        searchSavedMovies(moviesData, searchQuery, isShortFilm)
-      }
+      setMoviesData(filteredMoviesData);
+      localStorage.setItem('filteredMoviesData', JSON.stringify(filteredMoviesData));
+      localStorage.setItem('filteredInput', JSON.stringify(searchQuery))
+      localStorage.setItem('filteredToggle', JSON.stringify(isShortFilm))
+    } else {
+      //да, тут рекурсия. Наверное она тут оправдана 
+      localStorage.removeItem('filteredMoviesData')
+      searchSavedMovies(moviesData, searchQuery, isShortFilm)
+    }
+  };
+
+  const handleLikedSearch = async (searchQuery, isShortFilm) => {
+    if (!localStorage.getItem("likedMoviesData")) {
+      // Если сохранённых фильмов нет, выполняем запрос к API
+      const newLikedMoviesData = await getLikedMovies();
+      // Вызываем функцию поиска по лайкнутым фильмам
+      searchLikedMovies(newLikedMoviesData, searchQuery, isShortFilm);
+    } else {
+        // Если есть сохранённые фильмы, вызываем функцию поиска по сохранённым данным
+        const savedLikedMoviesData = JSON.parse(localStorage.getItem("likedMoviesData"));
+        searchLikedMovies(savedLikedMoviesData, searchQuery, isShortFilm);
+    }
+  }
+
+  const searchLikedMovies = (moviesData, searchQuery, isShortFilm) => {
+    // Осуществляем поиск и фильтрацию по сохранённым данным
+    if (!localStorage.getItem('filteredLikedMoviesData')) {
+      const filteredLikedMoviesData = moviesData.filter(movie => {
+        const isTitleContainsQuery = movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) || movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase());
+        const isShort = movie.duration < 40;
+        return isTitleContainsQuery && (isShortFilm ? isShort : true);
+    });
+      setMoviesData(filteredLikedMoviesData);
+      localStorage.setItem('filteredLikedMoviesData', JSON.stringify(filteredLikedMoviesData));
+      localStorage.setItem('filteredLikedInput', JSON.stringify(searchQuery))
+      localStorage.setItem('filteredLikedToggle', JSON.stringify(isShortFilm))
+    } else {
+      //да, тут рекурсия. Наверное она тут оправдана 
+      localStorage.removeItem('filteredLikedMoviesData')
+      searchLikedMovies(moviesData, searchQuery, isShortFilm)
+    }
   };
 
   const logOut = () => {
@@ -361,6 +394,10 @@ function App() {
                 isLoading={isLoading}
                 setIsLoading={setIsLoading} 
                 currentUser={currentUser}
+                searchQuery={searchQuery}
+                isShortFilm={isShortFilm}
+                setIsShortFilm={setIsShortFilm}
+                setSearchQuery={setSearchQuery}
                 />
               </ProtectedRoute>
           } />
@@ -375,10 +412,14 @@ function App() {
                 toggleLike={toggleLike} 
                 likedMovies={likedMovies} 
                 setLikedMovies={setLikedMovies}
-                handleSearch={handleSearch}
+                handleLikedSearch={handleLikedSearch}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading} 
                 currentUser={currentUser}
+                searchQuery={searchQuery}
+                isShortFilm={isShortFilm}
+                setIsShortFilm={setIsShortFilm}
+                setSearchQuery={setSearchQuery}
                 />
             </ProtectedRoute>
           } />

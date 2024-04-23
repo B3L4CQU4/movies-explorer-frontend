@@ -1,11 +1,10 @@
 class FormValidator {
-  constructor(config, formElement, userContext, isModified) {
+  constructor(config, formElement, userContext) {
     this._formElement = formElement;
     this._config = config;
     this._inputList = formElement.querySelectorAll(config.inputSelector);
     this._saveBtnElement = formElement.querySelector(config.saveBtnElement);
     this._currentUser = userContext; // Сохраняем currentUser в свойстве класса
-    this._isModified = isModified
   }
 
 
@@ -31,20 +30,14 @@ class FormValidator {
   _toggleButtonState(inputElement) {
     if (this._currentUser) {
       inputElement = inputElement || this._currentUser;
-      if (!this._isModified) {
-        console.log(`handleNameChange ${this._isModified}`)
-        if (this._formElement.checkValidity()) {
-          this._saveBtnElement.disabled = false;
-          this._saveBtnElement.classList.remove(this._config.inactiveButtonClass);
-        } else {
-          this._saveBtnElement.disabled = 'disabled';
-          this._saveBtnElement.classList.add(this._config.inactiveButtonClass);
-        }
+      if (this._formElement.checkValidity() && (inputElement.value !== this._currentUser.name || inputElement.value !== this._currentUser.email)) {
+        console.log(`handleNameChange ${inputElement.value} ${this._currentUser.name }`);
+        this._saveBtnElement.disabled = false;
+        this._saveBtnElement.classList.remove(this._config.inactiveButtonClass);
       } else {
         this._saveBtnElement.disabled = 'disabled';
         this._saveBtnElement.classList.add(this._config.inactiveButtonClass);
       }
-
     } else {
       if (this._formElement.checkValidity()) {
         this._saveBtnElement.disabled = false;
