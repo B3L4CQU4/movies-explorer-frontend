@@ -77,7 +77,7 @@ function SearchForm({
         const storedSearchQuery = JSON.parse(localStorage.getItem('filteredLikedInput'));
         handleLikedSearch(storedSearchQuery, isShortFilm);
       } else {
-        handleSearch(searchQuery, isShortFilm);
+        handleLikedSearch(searchQuery, isShortFilm);
       }
     }
   }, [isShortFilm]);
