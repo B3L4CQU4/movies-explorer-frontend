@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Register.css';
 import logo from '../../images/logo.svg';
 import { useNavigate } from 'react-router-dom';
-import FormValidator from '../FormValidator/FormValidator.js'; 
+import FormValidator from '../../utils/FormValidator/FormValidator.js'; 
 
 function Register({handleRegistration, isLoading, setIsLoading}) {
   const [name, setName] = useState('');

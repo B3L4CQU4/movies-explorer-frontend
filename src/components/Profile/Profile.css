@@ -120,6 +120,36 @@
     align-self: center;
 }
 
+.button {
+    margin: 0;
+    padding: 0;
+    border: none; 
+    box-shadow: none; 
+    outline: none;
+    cursor: inherit;
+    opacity: 0.8;   
+    border-radius: 3px;
+    background: rgb(66, 133, 244);
+    width: 396px;
+    height: 45px;
+    color: rgb(255, 255, 255);
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0%;
+    text-align: center;
+    align-self: center;
+}
+
+.button_text {
+    display: flex;
+}
+
+.button_hide {
+    display: none;
+}
+
 .profile__save-button_force-disabled {
     opacity: 0.8;
     cursor: inherit;

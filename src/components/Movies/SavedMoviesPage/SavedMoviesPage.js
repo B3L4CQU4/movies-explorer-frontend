@@ -7,7 +7,6 @@ function SavedMoviesPage({
     setMoviesData,
     visibleMoviesCount, 
     setVisibleMoviesCount, 
-    toggleLike, 
     isLoading, 
     setIsLoading,
     likedMovies,
@@ -36,7 +35,6 @@ function SavedMoviesPage({
                 setMoviesData={setMoviesData}
                 setVisibleMoviesCount={setVisibleMoviesCount} 
                 visibleMoviesCount={visibleMoviesCount}
-                toggleLike={toggleLike}
                 isLoading={isLoading}
                 setLikedMovies={setLikedMovies}
                 likedMovies={likedMovies}

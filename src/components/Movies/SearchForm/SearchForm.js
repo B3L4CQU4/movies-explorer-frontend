@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 import search_icon from '../../../images/search_icon.svg';
-import FormValidator from '../../FormValidator/FormValidator.js'; 
-import CurrentUserContext from '../../contexts/CurrentUserContext';
+import FormValidator from '../../../utils/FormValidator/FormValidator.js'; 
+import CurrentUserContext from '../../../utils/contexts/CurrentUserContext.js';
+import ErrorPopup from '../../ErrorPopup/ErrorPopup.js';
 
 function SearchForm({ 
   handleSearch, 
@@ -16,7 +17,15 @@ function SearchForm({
   searchQuery
 }) {
 
+  const [isToggleChanged, setIsToggleChanged] = useState(false);
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const location = useLocation();
+
+  useEffect(() => {
+    setIsComponentMounted(true);
+  }, []);
 
   const handleSearchInputChange = (event) => {
     const { value } = event.target;
@@ -28,6 +37,7 @@ function SearchForm({
 
   const handleShortFilmToggle = () => {
     setIsShortFilm(!isShortFilm);
+    setIsToggleChanged(!isToggleChanged)
   };
 
   const handleSubmit = async (e) => {
@@ -38,7 +48,8 @@ function SearchForm({
         await handleSearch(searchQuery, isShortFilm)
         setIsLoading(false);
       } catch (error) {
-        console.error('Failed to fetch movies:', error);
+        setErrorMessage({ error, message: 'Failed to fetch movies' });
+      } finally {
         setIsLoading(false);
       }
     }  else {
@@ -46,7 +57,8 @@ function SearchForm({
         await handleLikedSearch(searchQuery, isShortFilm)
         setIsLoading(false);
       } catch (error) {
-        console.error('Failed to fetch movies:', error);
+        setErrorMessage({ error, message: 'Failed to fetch movies' });
+      } finally {
         setIsLoading(false);
       }
     }
@@ -63,27 +75,25 @@ function SearchForm({
     const formValidator = new FormValidator(config, formElement);
     formValidator.enableValidation();
   }, []);
-
-  useEffect(() => {
-    // Фильтрация результатов при изменении состояния isShortFil
   
-    if (location.pathname !== '/saved-movies') {
-      if (localStorage.getItem('filteredInput')) {
-        const storedSearchQuery = JSON.parse(localStorage.getItem('filteredInput'));
-        handleSearch(storedSearchQuery, isShortFilm);
-      }
-    } else {
-      if (localStorage.getItem('filteredLikedInput')) {
-        const storedSearchQuery = JSON.parse(localStorage.getItem('filteredLikedInput'));
-        handleLikedSearch(storedSearchQuery, isShortFilm);
+  useEffect(() => {
+    if (isComponentMounted) {
+      if (location.pathname !== '/saved-movies') {
+        if (localStorage.getItem('filteredInput')) {
+          const storedSearchQuery = JSON.parse(localStorage.getItem('filteredInput'));
+          handleSearch(storedSearchQuery, isShortFilm);
+        }
       } else {
-        handleLikedSearch(searchQuery, isShortFilm);
+          handleLikedSearch(searchQuery, isShortFilm);  
       }
     }
-  }, [isShortFilm]);
+  }, [isToggleChanged]);
+
+
 
   return (
     <section className="search-form">
+    {errorMessage && <ErrorPopup errorMessage={errorMessage} onClose={() => setErrorMessage(null)} />}
       <form className="search-form__container" onSubmit={handleSubmit} noValidate>
         <div className="search-form__element" >
           <div className="search-form__element-container">
@@ -97,7 +107,7 @@ function SearchForm({
                 name='filter'
                 required
               />
-              <button type='submit' className="search-form__element-submit">Найти</button>
+              <button type='submit' className="search-form__element-submit" disabled={isLoading}>Найти</button>
             </div>
             <div className="search-form__element-filter">
                 <input 

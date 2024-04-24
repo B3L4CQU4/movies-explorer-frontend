@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext} from 'react';
-import CurrentUserContext from '../contexts/CurrentUserContext';
-import FormValidator from '../FormValidator/FormValidator.js'; 
+import CurrentUserContext from '../../utils/contexts/CurrentUserContext.js';
+import FormValidator from '../../utils/FormValidator/FormValidator.js'; 
 import './Profile.css';
-
+ 
 function Profile ({ 
   logOut, 
   currentUser,
@@ -53,21 +53,21 @@ function Profile ({
 
   const handleNameChange = (event) => { 
     setName(event.target.value);
-    if (userContext.name !== name || userContext.email !== email){
-        setIsModified(true)
+    if (userContext.name !== event.target.value){
+        setIsButtonDisabled(false)
     } else {
-        setIsModified(false)
-    } // Обновляем isModified при изменении имени
+        setIsButtonDisabled(true)
+    }
     formValidator._checkInputValidity(event.target); 
-};
+  };
 
 const handleEmailChange = (event) => { 
     setEmail(event.target.value);
-    if (userContext.name !== name || userContext.email !== email){
-        setIsModified(false)
+    if (userContext.email !== event.target.value){
+        setIsButtonDisabled(false)
     } else {
-        setIsModified(true)
-    } // Обновляем isModified при изменении email
+        setIsButtonDisabled(true)
+    }
     formValidator._checkInputValidity(event.target);
 };
   const onSuccessful = () => {

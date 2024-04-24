@@ -4,11 +4,10 @@ import MovieCard from '../MovieCard/MovieCard.js';
 import Preloader from '../Preloader/Preloader.js';
 
 function MoviesCardList({ 
-    moviesData, 
+    moviesData,  
     setMoviesData, 
     setVisibleMoviesCount, 
     visibleMoviesCount, 
-    toggleLike, 
     likedMovies, 
     setLikedMovies,
     isLoading,
@@ -26,7 +25,6 @@ function MoviesCardList({
                                 <MovieCard 
                                     key={movie.id} 
                                     movie={movie} 
-                                    toggleLike={toggleLike}
                                     setLikedMovies={setLikedMovies}
                                     likedMovies={likedMovies}
                                     currentUser={currentUser}
@@ -37,7 +35,17 @@ function MoviesCardList({
                             <div className="movies__more-container">
                                 <button 
                                     className="movies__more-button" 
-                                    onClick={() => setVisibleMoviesCount(prevCount => prevCount + 16)}
+                                    onClick={() => {
+                                        setVisibleMoviesCount(prevCount => {
+                                            if (window.matchMedia("(max-width: 320px)").matches) {
+                                                return prevCount + 2;
+                                            } else if (window.matchMedia("(max-width: 768px)").matches){
+                                                return prevCount + 8;
+                                            } else {
+                                                return prevCount + 16;
+                                            }
+                                        });
+                                        }}
                                     type='button'
                                 >Ещё
                                 </button>

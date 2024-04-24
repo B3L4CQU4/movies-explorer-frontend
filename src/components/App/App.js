@@ -15,7 +15,8 @@ import ProtectedRoute from '../../utils/ProtectedRoute.js';
 import moviesApi from '../../utils/MoviesApi.js';
 import handleErrorMiddleware from '../../utils/handleErrorMiddleware.js';
 import { useNavigate } from 'react-router-dom';
-import CurrentUserContext from '../contexts/CurrentUserContext';
+import CurrentUserContext from '../../utils/contexts/CurrentUserContext.js';
+import ErrorPopup from '../ErrorPopup/ErrorPopup.js';
 import './App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
   const [moviesData, setMoviesData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isShortFilm, setIsShortFilm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,8 +45,9 @@ function App() {
           setCurrentUser(currentUser);
           updateUserData(tokenData.email);
           setIsLogined(true);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          console.log(error);
+          setErrorMessage({ error, message: 'Bad token' });
           setIsLogined(false);
         }
       }
@@ -54,26 +57,29 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (isLogined) {
-        getMovies();
-        getLikedMovies();
-    }
-  }, [isLogined]);
+      if (isLogined) {
+        Promise.all([api.getUserInfo(), getLikedMovies(), getMovies()])
+          .then(([currentUser]) => {
+            setCurrentUser(currentUser);
+          })
+          .catch((error) => {
+            console.log(error);
+            setErrorMessage({ error, message: 'Failed to load data' });
+          });
+      }
+    }, [isLogined]);
+
 
   useEffect(() => {
-    if (location.pathname === '/saved-movies' && !localStorage.getItem("filteredLikedMoviesData")) {
+    if (location.pathname === '/saved-movies') {
       const likedMovies = localStorage.getItem("likedMoviesData")
       setMoviesData(JSON.parse(likedMovies))
-    } else if (location.pathname === '/saved-movies' && localStorage.getItem("filteredLikedMoviesData")) {
-      setMoviesData(JSON.parse(localStorage.getItem("filteredLikedMoviesData")))
-      setSearchQuery(JSON.parse(localStorage.getItem("filteredLikedInput")))
-      setIsShortFilm(JSON.parse(localStorage.getItem("filteredLikedToggle")))
     } else if (localStorage.getItem("filteredMoviesData")) {
       setMoviesData(JSON.parse(localStorage.getItem('filteredMoviesData')));
       setSearchQuery(JSON.parse(localStorage.getItem("filteredInput")))
       setIsShortFilm(JSON.parse(localStorage.getItem("filteredToggle")))
     }
-  }, []);
+  }, [likedMovies]);
 
 
   const getMovies = async () => {
@@ -82,7 +88,7 @@ function App() {
         localStorage.setItem('allMoviesData', JSON.stringify(newMoviesData));
         return newMoviesData
     } catch (error) {
-        console.error('Error fetching saved movies:', error);
+        setErrorMessage({ error, message: 'Failed fetching saved movies' });
     }
   };
   
@@ -100,7 +106,7 @@ function App() {
         localStorage.setItem("likedMoviesData", JSON.stringify(likedMoviesData));
         setLikedMovies(likedMoviesData);
     } catch (error) {
-        console.error('Error fetching saved movies:', error);
+        setErrorMessage({ error, message: 'Failed fetching liked movies' });
     }
   };
 
@@ -130,6 +136,7 @@ function App() {
   
   const handleLogin = async (email, password, onSuccessful, onFailed) => {
     try {
+      localStorage.clear();
       const authData = await auth.login(email, password);
       localStorage.setItem('jwt', authData.token);
       localStorage.setItem('isLogined', true); // Сохранение статуса аутентификации
@@ -174,7 +181,7 @@ function App() {
             searchSavedMovies(savedMoviesData, searchQuery, isShortFilm);
         }
     } catch (error) {
-        console.error('Failed to fetch movies:', error);
+        setErrorMessage({ error, message: 'Failed to fetch movies' });
     }
   };
 
@@ -219,9 +226,6 @@ function App() {
         return isTitleContainsQuery && (isShortFilm ? isShort : true);
     });
       setMoviesData(filteredLikedMoviesData);
-      localStorage.setItem('filteredLikedMoviesData', JSON.stringify(filteredLikedMoviesData));
-      localStorage.setItem('filteredLikedInput', JSON.stringify(searchQuery))
-      localStorage.setItem('filteredLikedToggle', JSON.stringify(isShortFilm))
     } else {
       //да, тут рекурсия. Наверное она тут оправдана 
       localStorage.removeItem('filteredLikedMoviesData')
@@ -231,11 +235,7 @@ function App() {
 
   const logOut = () => {
     setIsLogined(false);
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('isLogined'); // Удаление статуса аутентификации
-    localStorage.removeItem('allMoviesData');
-    localStorage.removeItem('filteredMoviesData');
-    localStorage.removeItem('likedMovies');
+    localStorage.clear();
     navigate("/");
   };
 
@@ -279,61 +279,6 @@ function App() {
     };
   }, []);
 
-  const toggleLike = async (movieId) => {
-    try {
-        const allMoviesData = JSON.parse(localStorage.getItem('allMoviesData'));
-
-        const movie = allMoviesData.find(movie => movie.id === movieId);
-        if (!movie) {
-            console.error('Movie not found');
-            return;
-        }
-
-        const userId = currentUser.id; 
-
-        const isLiked = likedMovies.some(movie => movie.movieId === movieId);
-
-        if (isLiked) {
-
-          const likedMovie = likedMovies.find(movie => movie.movieId === movieId);
-          if (!likedMovie) {
-              console.error('Liked movie not found');
-              return;
-          }
-
-          await api.deleteMovie(likedMovie._id);
-
-          const updatedLikedMovies = likedMovies.filter(movie => movie.movieId !== movieId);
-          setLikedMovies(updatedLikedMovies);
-          localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMovies));
-        } else {
-            const newMovieData = {
-                country: movie.country,
-                director: movie.director,
-                duration: movie.duration,
-                year: movie.year,
-                description: movie.description,
-                image: `https://api.nomoreparties.co/beatfilm-movies${movie.image.url}`,
-                trailerLink: movie.trailerLink,
-                thumbnail: `https://api.nomoreparties.co/beatfilm-movies${movie.image.formats.thumbnail.url}`,
-                movieId: movieId,
-                nameRU: movie.nameRU,
-                nameEN: movie.nameEN,
-                userId: userId
-            };
-
-            const createdMovie = await api.createMovie(newMovieData);
-
-            setLikedMovies(prevLikedMovies => [...prevLikedMovies, createdMovie]);
-            console.log(likedMovies);
-        }
-    } catch (error) {
-        console.error('Error toggling like:', error);
-    }
-  };
-
-  
-
   const HeaderWithLocation = () => {
     const headerClass = location.pathname === '/' ? 'header-mine' : 'header-other';
     const isActiveMenuItem = (path) => {
@@ -355,22 +300,29 @@ function App() {
       <Routes>
           <Route path="/signin" element={
             <>
+            {!isLogined ? (
               <Login 
                 handleLogin={handleLogin}
                 title="Вход"
                 name="Login"
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                />
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )}
             </>
           } />
           <Route path="/signup" element={
             <>
+            {!isLogined ? (
               <Register 
                 handleRegistration={handleRegistration} 
                 isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
+                setIsLoading={setIsLoading}/>
+            ) : (
+              <Navigate to="/" replace />
+            )}
             </>
           } />
           <Route path="/" element={
@@ -387,7 +339,6 @@ function App() {
                 setMoviesData={setMoviesData}
                 visibleMoviesCount={visibleMoviesCount}
                 setVisibleMoviesCount={setVisibleMoviesCount}
-                toggleLike={toggleLike} 
                 likedMovies={likedMovies} 
                 setLikedMovies={setLikedMovies}
                 handleSearch={handleSearch}
@@ -409,7 +360,6 @@ function App() {
                 setMoviesData={setMoviesData}
                 visibleMoviesCount={visibleMoviesCount}
                 setVisibleMoviesCount={setVisibleMoviesCount}
-                toggleLike={toggleLike} 
                 likedMovies={likedMovies} 
                 setLikedMovies={setLikedMovies}
                 handleLikedSearch={handleLikedSearch}
@@ -439,6 +389,7 @@ function App() {
       </Routes>
       {["/", "/movies", "/saved-movies"].includes(location.pathname) && <Footer />}
       </CurrentUserContext.Provider>
+      {errorMessage && <ErrorPopup errorMessage={errorMessage} onClose={() => setErrorMessage(null)} />}
     </div>
     
   );
